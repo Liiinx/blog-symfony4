@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,8 +23,10 @@ class CategoryController extends AbstractController
      */
     public function show(Category $category) :Response
     {
-
         //var_dump($category);
+
         return $this->render('category/category.html.twig', ['category'=>$category]);
     }
+
+
 }
