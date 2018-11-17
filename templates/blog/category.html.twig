@@ -1,0 +1,33 @@
+{# templates/blog/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Category{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+
+
+    <h1>Catégorie : {{ categories.name }}</h1>
+    <br>
+    <table style="width: 500px; text-align: center">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>nom</th>
+                <th>contenu</th>
+                <th>categorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.title }}</td>
+                <td>{{ article.content }}</td>
+                <td>{{ article.category.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
