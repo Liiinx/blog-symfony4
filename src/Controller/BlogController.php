@@ -76,18 +76,26 @@ class BlogController extends AbstractController
     }
 
     /**
-     * Show all (i don't know) from (i don't know)
+     * Show articles from one category
      *
-     * @Route("/category/{category}", name="blog_show_category")
+     * @Route("/category/{category}", defaults={"category" = null}, name="blog_show_category")
      */
     public function showByCategory(string $category)
     {
+        if (!$category) {
+            throw $this
+                ->createNotFoundException('No category has been sent to find in category\'s table.');
+        }
+
+        $category = preg_replace(
+            '/-/',
+            ' ', trim(strip_tags($category))
+        );
+
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
             ->findOneByName($category);
         //var_dump($categories);
-
-
 
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
