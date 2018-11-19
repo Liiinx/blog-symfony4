@@ -13,7 +13,7 @@ class BlogController extends AbstractController
     /**
      * Show all row from article's entity
      *
-     * @Route("/", name="blog_index")
+     * @Route("/blog/articles", name="blog_index")
      * @return Response A response instance
      */
     public function index() : Response
@@ -78,7 +78,7 @@ class BlogController extends AbstractController
     /**
      * Show articles from one category
      *
-     * @Route("/category/{category}", defaults={"category" = null}, name="blog_show_category")
+     * @Route("blog/category/{category}", defaults={"category" = null}, name="blog_show_category")
      */
     public function showByCategory(string $category)
     {
@@ -99,7 +99,7 @@ class BlogController extends AbstractController
 
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
-            ->findBy(['category' => $categories->getId()], ['id' => 'desc'], 3, 0);
+            ->findBy(['category' => $categories], ['id' => 'desc'], 3);
         //var_dump($articles);
 
         return $this->render(
@@ -110,18 +110,26 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog/category/{category}/all", name="all_categories")
+     * Show all articles from one category
+     *
+     * @Route("/blog/category/{name}/all", name="all_categories")
      */
-    public function showAllByCategory($category)
+    public function showAllByCategory(Category $category) : Response
     {
+        /*
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
             ->findBy(['name' => $category]);
             //var_dump($categories);
+        */
 
-        $categoryArticles = $categories->getArticles();
-        var_dump($categoryArticles);
+        $categories = $category->getArticles();
+        //var_dump($categories);
 
+
+        return $this->render(
+            'blog/categories.html.twig',
+            ['categories' => $categories]
+        );
     }
-
 }

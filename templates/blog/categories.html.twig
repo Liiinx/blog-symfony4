@@ -7,8 +7,7 @@
 
 {% block body %}
 
-
-    <h1>Catégorie : {{ categories.name }}</h1>
+    <h1>Catégorie : {{ categories.owner.name }}</h1>
     <br>
     <table style="width: 500px; text-align: center">
         <thead>
@@ -20,27 +19,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for article in articles %}
+        {% for article in categories.owner.articles %}
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
                 <td>{{ article.content }}</td>
-                <td>{{ article.category.name }}</td>
+                <td>{{ categories.owner.name }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('homepage') }}">
-        Back homepage.
+    <a href="/blog/category/{{ categories.owner.name }}">
+        Back to 3 last articles of this category.
     </a>
-    <br>
-    <a href="{{ path('blog_index') }}">
-        Back to all articles.
-    </a>
-    <br>
-    <a href="/blog/category/{{ categories.name }}/all">
-        Back to all articles of this category.
-    </a>
-
-
 {% endblock %}
+
