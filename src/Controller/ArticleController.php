@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,13 +27,33 @@ class ArticleController extends AbstractController
      */
     public function showCategories()
     {
-
-        $articles = $this->getDoctrine()
-            ->getRepository(Article::class)
-            ->findAll();
         //var_dump($articles);
 
         return $this->render('article/all.html.twig', ['articles' => $articles]);
+
+    }
+
+    /**
+     * @Route("/article/form", name="article_form")
+     */
+    public function addArticle(Request $request)
+    {
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            // $data contient les données du $_POST
+            // Faire une recherche dans la BDD avec les infos de $data...
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($data);
+            $em->flush();
+            return $this->redirectToRoute('blog_index');
+        }
+
+
+        return $this->render('article/new.html.twig', ['form'=> $form->createView()]);
 
     }
 
