@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,5 +57,35 @@ class ArticleController extends AbstractController
         return $this->render('article/new.html.twig', ['form'=> $form->createView()]);
 
     }
+
+    /**
+     * @Route("/tag/{name}", name="tag_name")
+     */
+
+    public function allArticlesFromOneTag($name)
+    {
+        $tag = $this->getDoctrine()
+            ->getRepository(Tag::class)
+            ->findOneBy(['name' => $name]);
+        //var_dump($tag);
+
+        return $this->render('article/oneTag.html.twig', ['tag' => $tag]);
+    }
+
+    /**
+     * @Route("/article/{id<^[0-9]+$>}", name="articleById")
+     */
+    public function oneArticleById($id)
+    {
+
+        $article = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findOneBy(['id' => $id]);
+        //var_dump($article);
+
+        return $this->render('article/oneArticleById.html.twig', ['article' => $article]);
+
+    }
+
 
 }
