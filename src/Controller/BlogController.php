@@ -85,6 +85,8 @@ class BlogController extends AbstractController
      * Show articles from one category
      *
      * @Route("blog/category/{category}", defaults={"category" = null}, name="blog_show_category")
+     * @param string $category
+     * @return Response
      */
     public function showByCategory(string $category)
     {
@@ -119,6 +121,8 @@ class BlogController extends AbstractController
      * Show all articles from one category
      *
      * @Route("/blog/category/{name}/all", name="all_categories")
+     * @param Category $category
+     * @return Response
      */
     public function showAllByCategory(Category $category) : Response
     {

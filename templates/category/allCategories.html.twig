@@ -4,8 +4,13 @@
 
 {% block body %}
 
+    <h1>All categories</h1>
+
     {% for category in categories %}
-        {{ category.name }}
+        <a href="/blog/category/{{ category.name }}/all">
+            {{ category.name }}
+        </a>
+        <br>
         <br>
     {% endfor %}
 
