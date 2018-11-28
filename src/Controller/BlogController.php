@@ -103,11 +103,11 @@ class BlogController extends AbstractController
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
             ->findOneByName($category);
-        //var_dump($categories);
+        var_dump($categories);
 
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
-            ->findBy(['category' => $categories], ['id' => 'desc'], 3);
+            ->findBy(['category' => $categories->getId()], ['id' => 'desc'], 3);
         //var_dump($articles);
 
         return $this->render(

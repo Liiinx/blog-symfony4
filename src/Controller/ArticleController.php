@@ -59,7 +59,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/tag/{name}", name="tag_name")
+     * @Route("/tagName/{name}", name="tag_name")
      */
 
     public function allArticlesFromOneTag($name)
