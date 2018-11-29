@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Tag;
 use App\Form\ArticleType;
+use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,12 +37,18 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/article/form", name="article_form")
+     * @param Request $request
+     * @param Slugify $slugify
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function addArticle(Request $request)
+    public function addArticle(Request $request, Slugify $slugify)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
+        //var_dump($form);
         $form->handleRequest($request);
+        $slug = $slugify->generate($article->getTitle());
+        $article->setSlug($slug);
 
         if ($form->isSubmitted()) {
             $data = $form->getData();
