@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\Category1Type;
 use App\Repository\CategoryRepository;
+use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,15 +29,18 @@ class CategoryController extends AbstractController
     /**
      * @Route("/new", name="category_new", methods="GET|POST")
      * @param Request $request
+     * @param Slugify $slugify
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Slugify $slugify): Response
     {
         $category = new Category();
         $form = $this->createForm(Category1Type::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugify->generate($category->getName());
+            $category->setSlug($slug);
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
@@ -64,14 +68,16 @@ class CategoryController extends AbstractController
      * @Route("/{id}/edit", name="category_edit", methods="GET|POST")
      * @param Request $request
      * @param Category $category
+     * @param Slugify $slugify
      * @return Response
      */
-    public function edit(Request $request, Category $category): Response
+    public function edit(Request $request, Category $category, Slugify $slugify): Response
     {
         $form = $this->createForm(Category1Type::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('category_index', ['id' => $category->getId()]);

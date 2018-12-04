@@ -9,6 +9,9 @@
 <h3>Contenu de l'article :</h3>
     <p>{{ article.content }}</p>
 
+    <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+    <br>
+
     <strong>Tags :</strong>
     <ul>
         {% for tag in article.tags %}
@@ -16,6 +19,11 @@
         {% else %}
             <li>No tags for this article</li>
         {% endfor %}
+    </ul>
+
+    <strong>Slug nigger !!! :</strong>
+    <ul>
+        <li>{{ article.slug }}</li>
     </ul>
 
     <a href="{{ path('blog_index') }}">

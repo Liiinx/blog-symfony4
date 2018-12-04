@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Tag;
 use App\Form\ArticleType;
+use App\Form\TagType;
 use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,23 +47,53 @@ class ArticleController extends AbstractController
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
         //var_dump($form);
+
         $form->handleRequest($request);
-        $slug = $slugify->generate($article->getTitle());
-        $article->setSlug($slug);
+
 
         if ($form->isSubmitted()) {
             $data = $form->getData();
             // $data contient les données du $_POST
             // Faire une recherche dans la BDD avec les infos de $data...
+            $slug = $slugify->generate($article->getTitle());
+            $article->setSlug($slug);
             $em = $this->getDoctrine()->getManager();
+            //dd($data);
             $em->persist($data);
             $em->flush();
-            return $this->redirectToRoute('blog_index');
+            return $this->redirectToRoute('articleById', ['id' => $article->getId()]);
         }
 
 
         return $this->render('article/new.html.twig', ['form'=> $form->createView()]);
 
+    }
+
+    /**
+     * @Route("article/{id}/edit", name="article_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Article $article
+     * @param Slugify $slugify
+     * @return Response
+     */
+    public function edit(Request $request, Article $article, Slugify $slugify) : Response
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugify->generate($article->getTitle());
+            $article->setSlug($slug);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('articleById', ['id' => $article->getId()]);
+        }
+
+        return $this->render('article/edit.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -88,7 +119,7 @@ class ArticleController extends AbstractController
         $article = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findOneBy(['id' => $id]);
-        //var_dump($article);
+        //dump($article);
 
         return $this->render('article/oneArticleById.html.twig', ['article' => $article]);
 
