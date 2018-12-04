@@ -24,8 +24,8 @@ class ArticleType extends AbstractType
             'choice_label' => 'name',
         ]);
         $builder->add('tags', EntityType::class, [
-            'required' => 'false',
             'class' => Tag::class,
+            'required' => false,
             'choice_label' => 'name',
             'multiple' => 'true'
         ]);
