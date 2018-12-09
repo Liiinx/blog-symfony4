@@ -30,12 +30,12 @@ class Slugify
             '/Ç/' => 'C',
             '/ñ/' => 'n',
             '/Ñ/' => 'N',
-            '/ +/' => '-',
             '/-+/' => '-',
             '/[\'!?;,.:"_]/' => '',
         );
         $input = preg_replace(array_keys($ChangeChar), array_values($ChangeChar), $input);
         $input = strtolower(trim($input));
+        $input = str_replace(" ", "-", $input);
         //dd($input);
         return $input;
     }

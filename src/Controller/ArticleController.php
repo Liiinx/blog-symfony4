@@ -46,7 +46,7 @@ class ArticleController extends AbstractController
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
-        //var_dump($form);
+        dump($form);
 
         $form->handleRequest($request);
 
