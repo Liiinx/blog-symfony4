@@ -1,0 +1,21 @@
+{# templates/emails/registration.html.twig #}
+<h3>Merci d'avoir ajouté l'article : {{ article.title }} sur mon blog !</h3>
+
+{#Hi {{ name }}! You're successfully registered.#}
+
+<p>article dans la catégorie : {{ article.category.name }}</p>
+<br>
+{#<a href="{{ path('articleById', {'id': article.id }) }}">#}
+<a href="http://127.0.0.1:8000/article/{{ article.id }}">
+<p>un aperçu de votre article</p>
+</a>
+
+{# example, assuming you have a route named "login" #}
+{#To login, go to: <a href="{{ url('login') }}">...</a>.#}
+
+<h2>Thanks!</h2>
+
+<div class="col-12">
+    {# Makes an absolute URL to the /images/logo.png file #}
+    <img alt="logo" src="{{ absolute_url(asset('images/ufo.png')) }}">
+</div>

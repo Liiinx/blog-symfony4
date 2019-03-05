@@ -42,13 +42,13 @@ class ArticleController extends AbstractController
      * @param Slugify $slugify
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function addArticle(Request $request, Slugify $slugify)
+    public function addArticle(Request $request, Slugify $slugify, \Swift_Mailer $mailer)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
-        dump($form);
 
         $form->handleRequest($request);
+        //dump($article);
 
 
         if ($form->isSubmitted()) {
@@ -61,6 +61,20 @@ class ArticleController extends AbstractController
             //dd($data);
             $em->persist($data);
             $em->flush();
+
+            $message = (new \Swift_Message('Un nouvel article vient d\'être publié !'))
+                ->setFrom('ftuffreaud@gmail.com')
+                ->setTo('liiinx@laposte.net')
+                ->setBody(
+                    $this->renderView(
+                        'emails/addArticle.html.twig',
+                        ['article' => $article]
+                    ),
+                    'text/html'
+                )
+                ;
+                $mailer->send($message);
+
             return $this->redirectToRoute('articleById', ['id' => $article->getId()]);
         }
 
