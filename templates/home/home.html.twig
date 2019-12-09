@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>Hello WCS</h1>
+
+    <a href="{{ path('blog_index') }}">
+        all articles, with category and content.
+    </a>
+    <br>
+    <a href="{{ path('category_index') }}">
+        all categories
+    </a>
+    <br>
+    <a href="{{ path('article_form') }}">
+        add article
+    </a>
+    <br>
+    <a href="{{ path('category_new') }}">
+        add category
+    </a>
+
+    <br>
+    <a href="{{ path('tag_index') }}">
+        All tags
+    </a>
+
+
+{% endblock %}

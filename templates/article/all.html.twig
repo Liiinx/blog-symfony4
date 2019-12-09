@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}all{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+
+        {% for article in articles %}
+            <h1><span style="color: #718C00">catégorie :</span> {{ article.category.name }} <span style="color: #718C00">/ article :</span> {{ article.title }}</h1><br>
+
+        {% endfor %}
+
+        <h1>{{ articles[0].category.name }}</h1>
+        {% for article in articles %}
+            {% if article.category.id == 1 %}
+            <h3>{{ article.title }}</h3>
+            {% endif %}
+
+        {% endfor %}
+        <h1>{{ articles[1].category.name }}</h1>
+        {% for article in articles %}
+            {% if article.category.id == 2 %}
+                <h3>{{ article.title }}</h3>
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+    <a href="{{ path('homepage') }}">
+        Back to homepage.
+    </a>
+{% endblock %}

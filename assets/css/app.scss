@@ -1,0 +1,19 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  background-color: aliceblue;
+}
+.main-container {
+  padding: 5em;
+  height: 100%;
+}
+
+a {
+  color: darkred;
+}
+
+a:hover {
+  text-decoration: none;
+  color: orchid;
+}
+
